@@ -1,0 +1,13 @@
+.leaflet-container {
+  width: 700px;
+  height: 550px;
+  max-height: 85%;
+}
+
+@media (max-width: 800px), (max-height: 500px) {
+  .leaflet-container {
+    min-height: 350px;
+    height: 350px;
+    width: auto;
+  }
+}

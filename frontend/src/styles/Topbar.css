@@ -1,0 +1,25 @@
+.topbar {
+  display: flex;
+  background-color: #00004e;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+
+.topbar-img {
+  margin-left: 60px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  width: 400px;
+  height: auto;
+}
+
+@media (max-width: 800px), (max-height: 500px) {
+  .topbar-img {
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 200px;
+    height: auto;
+  }
+}

@@ -1,0 +1,9 @@
+.weather-data-and-icon-container {
+  display: flex;
+}
+
+.weather-icon {
+  margin-left: 50px;
+  height: 100px;
+  width: auto;
+}

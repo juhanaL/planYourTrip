@@ -1,0 +1,13 @@
+.webcam-pic-container {
+  display: flex;
+  flex-shrink: 2;
+  min-width: 0;
+  min-height: 0;
+}
+
+.webcam-pic {
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left;
+  width: 700px;
+}
