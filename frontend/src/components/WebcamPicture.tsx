@@ -11,7 +11,7 @@ const WebcamPicture = ({ url }: Props) => {
 
   return (
     <div className="webcam-pic-container">
-      <img className="webcam-pic" src={url} alt="Weather icon" />
+      <img className="webcam-pic" src={url} alt="Webcam from defined location" />
     </div>
   );
 };

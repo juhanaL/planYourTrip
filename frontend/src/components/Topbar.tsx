@@ -4,7 +4,7 @@ import '../styles/Topbar.css';
 
 const Topbar = () => {
   return (
-    <div className="topbar">
+    <div className="topbar" data-testid="topbar">
       <Link to="/" className="nav-link">
         <img
           className="topbar-img"

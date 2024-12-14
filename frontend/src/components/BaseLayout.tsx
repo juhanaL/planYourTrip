@@ -12,7 +12,7 @@ const BaseLayout = () => {
       </div>
       <div className="nav-and-content">
         <Navbar />
-        <div className="main-content">
+        <div className="main-content" data-testid="main-content">
           <Outlet />
         </div>
       </div>

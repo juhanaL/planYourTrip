@@ -1,14 +1,14 @@
 import '../styles/WeatherData.css';
 
 type Weather = {
-  main: { temp: string };
-  weather: [{ icon: string }];
+  main: { temp: number };
+  weather: { icon: string }[];
 };
 
 interface Props {
   weather: Weather | null;
   name: string | null;
-  time: { time: string } | null;
+  time: string | null;
 }
 
 const WeatherData = ({ weather, name, time }: Props) => {
@@ -21,7 +21,7 @@ const WeatherData = ({ weather, name, time }: Props) => {
       <div className="weather-data-and-icon-container">
         <div className="weather-data-container">
           <p>Temperature: {weather.main.temp} C</p>
-          {time && <p>Local time: {time.time}</p>}
+          {time && <p>Local time: {time}</p>}
         </div>
         <img
           className="weather-icon"

@@ -45,6 +45,7 @@ const Navbar = () => {
     >
       <i
         className={`fa fa-navbar-icon fa-navbar-toggle-icon fa-navbar-icon-${showNavbar ? 'expanded fa-chevron-left' : 'closed fa-chevron-right'}`}
+        data-testid={`${showNavbar ? 'fa-chevron-left' : 'fa-chevron-right'}`}
       />
     </div>
   );
@@ -68,6 +69,7 @@ const Navbar = () => {
             {showNavbar && <span className="navbar-text">{item.text}</span>}
             <i
               className={`fa fa-navbar-icon fa-navbar-icon-${showNavbar ? 'expanded' : 'closed'} ${item.icon}`}
+              data-testid={`${item.icon}`}
             />
           </div>
         </Link>
@@ -76,7 +78,11 @@ const Navbar = () => {
   });
 
   return (
-    <div className={`navbar ${showNavbar ? 'expanded' : 'closed'}-navbar`} ref={navbarRef}>
+    <div
+      className={`navbar ${showNavbar ? 'expanded' : 'closed'}-navbar`}
+      ref={navbarRef}
+      data-testid={`${showNavbar ? 'expanded' : 'closed'}-navbar`}
+    >
       {navbarToggle}
       <div className="navbar-items">{navbarItems}</div>
     </div>
