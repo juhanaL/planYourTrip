@@ -25,9 +25,10 @@
 
   .nav-and-content {
     height: calc(100% - 50px);
+    flex-direction: column;
   }
 
-  .nav-and-content {
-    flex-direction: column;
+  .main-content {
+    height: 100%;
   }
 }

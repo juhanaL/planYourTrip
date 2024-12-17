@@ -24,10 +24,3 @@
     flex-direction: column-reverse;
   }
 }
-
-@media (orientation: landscape) {
-  .weather-window {
-    margin-left: 50px;
-    margin-right: 50px;
-  }
-}

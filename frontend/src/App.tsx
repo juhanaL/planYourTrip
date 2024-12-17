@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import WeatherMap from './components/WeatherMap';
 import BaseLayout from './components/BaseLayout';
+import TodoList from './components/TodoList';
 
 import './App.css';
 
@@ -20,7 +21,7 @@ const router = createBrowserRouter(
         },
         {
           path: 'todo',
-          element: <>Placeholder</>,
+          element: <TodoList />,
         },
       ],
     },

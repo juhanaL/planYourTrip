@@ -1,0 +1,35 @@
+.todo-item {
+  display: flex;
+  align-items: center;
+  border: solid;
+  border-color: #00004e;
+  border-radius: 5px;
+  background-color: #ededf9;
+  margin-bottom: 7px;
+  padding: 10px;
+  gap: 10px;
+  touch-action: none;
+}
+
+.todo-item-draggable-true {
+  background-color: #adadb6;
+  box-shadow: 5px 5px 10px 0px rgb(0 0 0 / 0.8);
+  position: relative;
+}
+
+.todo-text {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  resize: none;
+}
+
+.fa-sort {
+  cursor: grab;
+}
+
+.fa-close {
+  cursor: pointer;
+  margin-left: auto;
+}
