@@ -26,8 +26,8 @@ describe('TodoList', () => {
     const activeTasksContainer = within(screen.getByTestId('active-todo-container'));
     const completedTasksContainer = within(screen.getByTestId('completed-todo-container'));
 
-    const activeTasks = activeTasksContainer.getAllByTestId('todo-item');
-    const completedTasks = completedTasksContainer.getAllByTestId('todo-item');
+    const activeTasks = activeTasksContainer.getAllByTestId('todo-item-draggable-false');
+    const completedTasks = completedTasksContainer.getAllByTestId('todo-item-draggable-false');
 
     expect(activeTasks).toHaveLength(2);
     expect(within(activeTasks[0]).getByText('test3')).toBeDefined();
@@ -55,7 +55,7 @@ describe('TodoList', () => {
     fireEvent.click(button);
 
     const activeTasksContainer = within(screen.getByTestId('active-todo-container'));
-    const activeTasks = activeTasksContainer.getAllByTestId('todo-item');
+    const activeTasks = activeTasksContainer.getAllByTestId('todo-item-draggable-false');
     const lastTask = within(activeTasks[activeTasks.length - 1]);
     const lastTextArea = lastTask.getByTestId('0-textarea') as HTMLTextAreaElement;
     const lastCheckbox = lastTask.getByTestId('0-checkbox') as HTMLInputElement;
@@ -120,7 +120,7 @@ describe('TodoList', () => {
     render(<TodoList />);
 
     const activeTasksContainer = within(screen.getByTestId('active-todo-container'));
-    const activeTasks = activeTasksContainer.getAllByTestId('todo-item');
+    const activeTasks = activeTasksContainer.getAllByTestId('todo-item-draggable-false');
     expect(within(activeTasks[0]).getByText('test3')).toBeDefined();
     expect(within(activeTasks[1]).getByText('test1')).toBeDefined();
 

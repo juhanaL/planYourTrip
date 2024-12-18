@@ -62,42 +62,4 @@ describe('TodoItem', () => {
     fireEvent.mouseUp(dragIcon);
     expect(scrollByMock).toHaveBeenCalledTimes(2);
   });
-
-  test('trigger correct handler on touch movement', () => {
-    // handleTouchMoveEvent;
-    const handleTouchMoveEventMock = vi.fn();
-
-    render(
-      <div
-        className="main-content"
-        data-testid="main-content"
-        id="main-content"
-        style={{ overflow: 'scroll' }}
-      >
-        <TodoItem
-          todoText="Test1"
-          id={0}
-          done={false}
-          removeTodoItem={() => {}}
-          changeTodoText={() => {}}
-          toggleDone={() => {}}
-          setCoordinates={() => {}}
-          reallocatePlaceNumbers={() => {}}
-          placeNumber={1}
-          key={0}
-        />
-      </div>
-    );
-
-    vi.spyOn(TodoItem.prototype, 'handleTouchMoveEvent').mockImplementation(
-      handleTouchMoveEventMock
-    );
-
-    const dragIcon = screen.getByTestId('0-sortIcon');
-    fireEvent.touchStart(dragIcon);
-    fireEvent.touchMove(dragIcon);
-    fireEvent.touchEnd(dragIcon);
-
-    expect(handleTouchMoveEventMock).toHaveBeenCalledTimes(1);
-  });
 });

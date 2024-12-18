@@ -196,7 +196,7 @@ const TodoItem = ({
     <div
       className={`todo-item todo-item-draggable-${draggable}`}
       ref={todoItemRef}
-      data-testid="todo-item"
+      data-testid={`todo-item-draggable-${draggable}`}
     >
       <i
         className="fa fa-sort"
