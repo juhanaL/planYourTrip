@@ -32,10 +32,10 @@ const TodoItem = ({
   const scrollUpRef = useRef<boolean>(false);
   const scrollDownRef = useRef<boolean>(false);
   const scrollCallerRef = useRef<number>(0);
-  const mouseYRef = useRef<number>(0);
-  const lastTouchYCoordRef = useRef<number>(0);
+  const mouseOrTouchYRef = useRef<number>(0);
+  const lastMouseOrTouchYCoordRef = useRef<number>(0);
 
-  const mainContentContainer = document.getElementById('main-content');
+  // const mainContentContainer = document.getElementById('main-content');
 
   const changeTodo = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     changeTodoText(id, event.target.value);
@@ -46,12 +46,12 @@ const TodoItem = ({
   };
 
   const getAvgYCoordinates = () => {
+    let avgYCoordinate = 0;
     if (todoItemRef.current) {
       const rect = todoItemRef.current.getBoundingClientRect();
-      const avgYCoordinate = (rect.top + rect.bottom) / 2;
-      return avgYCoordinate;
+      avgYCoordinate = (rect.top + rect.bottom) / 2;
     }
-    return 0;
+    return avgYCoordinate;
   };
 
   const setAvgYCoordinates = () => {
@@ -72,15 +72,15 @@ const TodoItem = ({
 
     const scrollSpeedAndDirection = scrollUpRef.current ? -scrollSpeed : scrollSpeed;
 
+    const mainContentContainer = document.getElementById('main-content');
     if (mainContentContainer && todoItemRef.current) {
-      mainContentContainer?.scrollBy(0, scrollSpeedAndDirection);
-
+      mainContentContainer.scrollBy(0, scrollSpeedAndDirection);
       if (
         mainContentContainer.scrollTop > 0 &&
         mainContentContainer.scrollTop <
           mainContentContainer.scrollHeight - mainContentContainer.offsetHeight
       ) {
-        changeElementTop(mouseYRef.current);
+        changeElementTop(mouseOrTouchYRef.current);
 
         setAvgYCoordinates();
         reallocatePlaceNumbers(id);
@@ -94,12 +94,12 @@ const TodoItem = ({
 
   const changeItemCoordinatesOnMoveEvent = (yCoords: number, movementDirection: number) => {
     if (todoItemRef.current) {
-      mouseYRef.current = yCoords;
-      changeElementTop(mouseYRef.current);
+      mouseOrTouchYRef.current = yCoords;
+      changeElementTop(mouseOrTouchYRef.current);
       setAvgYCoordinates();
       reallocatePlaceNumbers(id);
 
-      const mainContRect = mainContentContainer?.getBoundingClientRect();
+      const mainContRect = document.getElementById('main-content')?.getBoundingClientRect();
       const scrollZoneHeight = 0.2 * window.innerHeight;
       const topScrollZone = (mainContRect?.top || 0) + scrollZoneHeight;
       const bottomScrollZone = (mainContRect?.bottom || 0) - scrollZoneHeight;
@@ -107,14 +107,14 @@ const TodoItem = ({
       if (movementDirection < 0) scrollDownRef.current = false;
       if (movementDirection > 0) scrollUpRef.current = false;
 
-      if (movementDirection < 0 && mouseYRef.current < topScrollZone) {
-        const scrollSpeed = ((topScrollZone - mouseYRef.current) / scrollZoneHeight) * 20;
+      if (movementDirection < 0 && mouseOrTouchYRef.current < topScrollZone) {
+        const scrollSpeed = ((topScrollZone - mouseOrTouchYRef.current) / scrollZoneHeight) * 20;
         scrollUpRef.current = true;
         autoScroll((scrollCallerRef.current += 1), scrollSpeed);
       }
 
-      if (movementDirection > 0 && mouseYRef.current > bottomScrollZone) {
-        const scrollSpeed = ((mouseYRef.current - bottomScrollZone) / scrollZoneHeight) * 20;
+      if (movementDirection > 0 && mouseOrTouchYRef.current > bottomScrollZone) {
+        const scrollSpeed = ((mouseOrTouchYRef.current - bottomScrollZone) / scrollZoneHeight) * 20;
         scrollDownRef.current = true;
         autoScroll((scrollCallerRef.current += 1), scrollSpeed);
       }
@@ -123,14 +123,15 @@ const TodoItem = ({
 
   const handleMouseMoveEvent = (event: MouseEvent) => {
     const movementYCoord = event.clientY;
-    const movementDirection = event.movementY;
+    const movementDirection = movementYCoord - lastMouseOrTouchYCoordRef.current;
+    lastMouseOrTouchYCoordRef.current = movementYCoord;
     changeItemCoordinatesOnMoveEvent(movementYCoord, movementDirection);
   };
 
   const handleTouchMoveEvent = (event: TouchEvent) => {
     const movementYCoord = event.changedTouches[0].clientY;
-    const movementDirection = movementYCoord - lastTouchYCoordRef.current;
-    lastTouchYCoordRef.current = movementYCoord;
+    const movementDirection = movementYCoord - lastMouseOrTouchYCoordRef.current;
+    lastMouseOrTouchYCoordRef.current = movementYCoord;
     changeItemCoordinatesOnMoveEvent(movementYCoord, movementDirection);
   };
 
@@ -145,13 +146,14 @@ const TodoItem = ({
     document.removeEventListener('mousemove', handleMouseMoveEvent);
   };
 
-  const draggableTrueWhenMouseClicked = (event?: React.MouseEvent<HTMLElement>) => {
+  const draggableTrueWhenMouseClicked = (event: React.MouseEvent<HTMLElement>) => {
     event?.preventDefault();
 
     if (todoItemRef.current) {
       todoItemRef.current.style.top = '0px';
     }
 
+    lastMouseOrTouchYCoordRef.current = event.clientY;
     setDraggable(true);
     document.addEventListener('mouseup', draggableFalseWhenMouseReleased);
     document.addEventListener('mousemove', handleMouseMoveEvent);
@@ -173,7 +175,7 @@ const TodoItem = ({
       todoItemRef.current.style.top = '0px';
     }
 
-    lastTouchYCoordRef.current = event.changedTouches[0].clientY;
+    lastMouseOrTouchYCoordRef.current = event.changedTouches[0].clientY;
     setDraggable(true);
     document.addEventListener('touchend', draggableFalseWhenTouchEnd);
     document.addEventListener('touchmove', handleTouchMoveEvent);
@@ -185,21 +187,27 @@ const TodoItem = ({
 
   useLayoutEffect(() => {
     if (todoItemRef.current) {
-      changeElementTop(mouseYRef.current);
+      changeElementTop(mouseOrTouchYRef.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [placeNumber]);
 
   return (
-    <div className={`todo-item todo-item-draggable-${draggable}`} ref={todoItemRef}>
+    <div
+      className={`todo-item todo-item-draggable-${draggable}`}
+      ref={todoItemRef}
+      data-testid="todo-item"
+    >
       <i
         className="fa fa-sort"
+        data-testid={`${id}-sortIcon`}
         role="presentation"
         onMouseDown={draggableTrueWhenMouseClicked}
         onTouchStart={draggableTrueWhenTouchStart}
       />
       <input
         id={`${id}-checkbox`}
+        data-testid={`${id}-checkbox`}
         type="checkbox"
         className="todo-done-checkbox"
         checked={done}
@@ -207,6 +215,7 @@ const TodoItem = ({
       />
       <TextareaAutosize
         id={`${id}-textarea`}
+        data-testid={`${id}-textarea`}
         className="todo-text"
         placeholder="To do item"
         value={todoText}
@@ -216,6 +225,7 @@ const TodoItem = ({
         className="fa fa-close"
         role="button"
         aria-label="remove todo item button"
+        data-testid={`${id}-removeButton`}
         tabIndex={0}
         onClick={() => removeTodoItem(id)}
         onKeyDown={(event) => {

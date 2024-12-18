@@ -145,12 +145,12 @@ const TodoList = () => {
 
   return (
     <div className="todo-container">
-      <div className="active-todo-container">
+      <div className="active-todo-container" data-testid="active-todo-container">
         <h2 className="todo-heading">To Do list</h2>
         <TodoButton text="Add To do item" handleClick={addTodoItem} />
         {todos.filter((todo) => !todo.done).map((todo) => returnTodoElement(todo))}
       </div>
-      <div className="completed-todo-container">
+      <div className="completed-todo-container" data-testid="completed-todo-container">
         <h2 className="todo-heading">Completed tasks</h2>
         {todos.filter((todo) => todo.done).map((todo) => returnTodoElement(todo))}
       </div>
