@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import WeatherMap from './components/WeatherMap';
+import HomePage from './components/HomePage';
 import BaseLayout from './components/BaseLayout';
 import TodoList from './components/TodoList';
 
@@ -13,7 +14,7 @@ const router = createBrowserRouter(
       children: [
         {
           index: true,
-          element: <>Placeholder</>,
+          element: <HomePage />,
         },
         {
           path: 'weathermap',

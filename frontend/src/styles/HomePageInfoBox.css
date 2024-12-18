@@ -1,0 +1,45 @@
+.home-page-info-container {
+  display: flex;
+  border: solid;
+  border-color: #00004e;
+  background-color: #ededf9;
+  padding: 20px;
+  margin-bottom: 7px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.home-page-info-container:hover {
+  background-color: #adadb6;
+}
+
+.nav-link {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-page-info-text {
+  color: black;
+}
+
+.home-page-info-heading {
+  color: black;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.home-page-info-image-container {
+  margin-top: auto;
+}
+
+.home-page-info-preview {
+  max-width: 700px;
+  width: 100%;
+}
+
+@media (orientation: portrait) {
+  .home-page-info-container {
+    width: auto;
+  }
+}
