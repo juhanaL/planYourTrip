@@ -18,7 +18,6 @@ let todos: TodosType[] = [
 dotenv.config();
 
 const app: Express = express();
-// app.use(cors<Request>())
 app.use(cors());
 app.use(express.json());
 
@@ -119,7 +118,7 @@ app.put('/api/todos/:id', (request: Request, response: Response) => {
 
   todoToUpdate.placeNumber = updatedTodo.placeNumber || todoToUpdate.placeNumber;
   todoToUpdate.text = updatedTodo.text || todoToUpdate.text;
-  todoToUpdate.done = updatedTodo.done || todoToUpdate.done;
+  todoToUpdate.done = updatedTodo.done != null ? updatedTodo.done : todoToUpdate.done;
 
   todos = todos.map((todo) => {
     if (todo.id !== id) {

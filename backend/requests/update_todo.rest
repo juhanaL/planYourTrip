@@ -3,6 +3,5 @@ Content-Type: application/json
 
 {
     "text": "600",  
-    "placeNumber": 5, 
-    "done": true
+    "placeNumber": 5
 }

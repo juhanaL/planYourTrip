@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import weatherService from '../services/weather';
 import SelectionMap from './SelectionMap';
 import WeatherData from './WeatherData';
 import WebcamPicture from './WebcamPicture';
@@ -29,13 +29,11 @@ const WeatherMap = () => {
   const [name, setName] = useState<string | null>(null);
 
   const changeTime = (newCoords: Coords) => {
-    const url = `https://timeapi.io/api/time/current/coordinate?latitude=${newCoords.lat}&longitude=${newCoords.lng}`;
-
-    axios
-      .get(url)
+    weatherService
+      .getTime(newCoords)
       .then((data) => {
-        if (data.data && typeof data.data.time === 'string') {
-          setTime(data.data.time);
+        if (data && typeof data.time === 'string') {
+          setTime(data.time);
         } else {
           setTime(null);
         }
@@ -46,15 +44,11 @@ const WeatherMap = () => {
   };
 
   const getCamera = (newCoords: Coords) => {
-    const url = `https://api.windy.com/webcams/api/v3/webcams?lang=en&limit=10&offset=0&nearby=${newCoords.lat}%2C${newCoords.lng}%2C250&categories=meteo&include=images`;
-
-    axios
-      .get(url, {
-        headers: { 'x-windy-api-key': `${import.meta.env.VITE_X_WINDY_API_KEY}` },
-      })
+    weatherService
+      .getCamera(newCoords)
       .then((data) => {
-        if (data.data && typeof data.data.webcams[0].images.current.preview === 'string') {
-          setCam(data.data.webcams[0].images.current.preview);
+        if (data && typeof data.webcams[0].images.current.preview === 'string') {
+          setCam(data.webcams[0].images.current.preview);
         } else {
           setCam(null);
         }
@@ -65,13 +59,11 @@ const WeatherMap = () => {
   };
 
   const getName = (newCoords: Coords) => {
-    const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${newCoords.lat}&lon=${newCoords.lng}&limit=1&appid=${import.meta.env.VITE_WEATHER_API_KEY}`;
-
-    axios
-      .get(url)
+    weatherService
+      .getName(newCoords)
       .then((data) => {
-        if (data.data && typeof data.data[0].name === 'string') {
-          setName(data.data[0].name);
+        if (data && typeof data[0].name === 'string') {
+          setName(data[0].name);
         } else {
           setName(`Lat: ${newCoords.lat.toFixed(4)}, Long: ${newCoords.lng.toFixed(4)}`);
         }
@@ -82,17 +74,15 @@ const WeatherMap = () => {
   };
 
   const changeWeather = (newCoords: Coords) => {
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${newCoords.lat}&lon=${newCoords.lng}&appid=${import.meta.env.VITE_WEATHER_API_KEY}&units=metric`;
-
-    axios
-      .get(url)
+    weatherService
+      .getWeatherData(newCoords)
       .then((data) => {
         if (
-          data.data &&
-          typeof data.data.weather[0].icon === 'string' &&
-          typeof data.data.main.temp === 'number'
+          data &&
+          typeof data.weather[0].icon === 'string' &&
+          typeof data.main.temp === 'number'
         ) {
-          setWeather(data.data);
+          setWeather(data);
         } else {
           setWeather(null);
         }

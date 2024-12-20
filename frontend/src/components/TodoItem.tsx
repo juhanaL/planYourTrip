@@ -1,17 +1,18 @@
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+import todoService from '../services/todos';
 
 import '../styles/TodoItem.css';
 
 interface Props {
   todoText: string;
-  id: number;
+  id: string;
   done: boolean;
-  removeTodoItem: (arg0: number) => void;
-  changeTodoText: (arf0: number, arg1: string) => void;
-  toggleDone: (arf0: number, arg1: boolean) => void;
-  setCoordinates: (arf0: number, arg1: number) => void;
-  reallocatePlaceNumbers: (arg0: number) => void;
+  removeTodoItem: (arg0: string) => void;
+  changeTodoText: (arf0: string, arg1: string) => void;
+  toggleDone: (arf0: string, arg1: boolean) => void;
+  setCoordinates: (arf0: string, arg1: number) => void;
+  reallocatePlaceNumbers: (arg0: string) => void;
   placeNumber: number;
 }
 
@@ -34,8 +35,6 @@ const TodoItem = ({
   const scrollCallerRef = useRef<number>(0);
   const mouseOrTouchYRef = useRef<number>(0);
   const lastMouseOrTouchYCoordRef = useRef<number>(0);
-
-  // const mainContentContainer = document.getElementById('main-content');
 
   const changeTodo = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     changeTodoText(id, event.target.value);
@@ -189,6 +188,7 @@ const TodoItem = ({
     if (todoItemRef.current) {
       changeElementTop(mouseOrTouchYRef.current);
     }
+    todoService.updatePlaceNumber(id, placeNumber);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [placeNumber]);
 
