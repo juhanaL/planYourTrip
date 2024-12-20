@@ -6,7 +6,7 @@ interface TodosType {
   done: boolean;
 }
 
-const baseUrl = 'http://localhost:3001/api/todos';
+const baseUrl = '/api/todos';
 
 const getAllTodos = () => {
   const request = axios.get(baseUrl);

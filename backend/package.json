@@ -4,6 +4,9 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc",
+    "build:ui": "rm -rf dist && cd ../frontend && npm run build && cp -r dist ../backend",
+    "build:full": "npm run build && npm run build:ui",
+    "deploy:full": "build:full && git add . && git commit -m uibuild && git push",
     "start": "node dist/index.js",
     "dev": "nodemon index.ts",
     "lint": "eslint . --ext .ts,.tsx",
@@ -14,6 +17,7 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
+    "axios": "^1.7.9",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2"

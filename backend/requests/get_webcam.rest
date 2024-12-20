@@ -1,0 +1,1 @@
+GET http://localhost:3001/api/webcam?lat=60.1756&lng=24.9342

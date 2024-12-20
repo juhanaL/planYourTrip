@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import logo from '../images/planYourTripLogo.png';
 
 import '../styles/Topbar.css';
 
@@ -8,7 +9,7 @@ const Topbar = () => {
       <Link to="/" className="nav-link">
         <img
           className="topbar-img"
-          src="../src/images/planYourTripLogo.png"
+          src={logo}
           alt="Logo with text 'plan your trip' and icon of the earth."
         />
       </Link>

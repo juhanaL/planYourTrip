@@ -1,4 +1,6 @@
 import HomePageInfoBox from './HomePageInfoBox';
+import weatherMapPreview from '../images/weatherMapPreview.png';
+import todoPreview from '../images/todoPreview.png';
 
 import '../styles/HomePage.css';
 
@@ -14,13 +16,13 @@ const HomePage = () => {
       <div className="home-page-info-boxes-container">
         <HomePageInfoBox
           heading="Weather map"
-          image="../src/images/weatherMapPreview.png"
+          image={weatherMapPreview}
           infotext={weatherMapInfoText}
           link="/weathermap"
         />
         <HomePageInfoBox
           heading="Trip To Do"
-          image="../src/images/todoPreview.png"
+          image={todoPreview}
           infotext={todoInfoText}
           link="/todo"
         />
