@@ -1,5 +1,6 @@
 POST http://localhost:3001/api/todos
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMTIzLTQ1Ni03ODktMTAxMTEyIiwiaWF0IjoxNzM0ODAwNTkyfQ.VSmSQVBiwd1d4l5AxzOFhzLDf9AMOrFF67HeUgeJaMU
 
 {
     "text": "test1",  

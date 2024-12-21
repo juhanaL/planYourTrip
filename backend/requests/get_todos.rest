@@ -1,1 +1,2 @@
 GET http://localhost:3001/api/todos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMTIzLTQ1Ni03ODktMTAiLCJpYXQiOjE3MzQ4MDE3NTl9.n_fw9YaFX8ZzY31Ny92aaek3Yv9LN24k1ZjCs23geoI

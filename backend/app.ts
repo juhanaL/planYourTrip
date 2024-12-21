@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import todosRouter from './controllers/todos';
 import weatherRouter from './controllers/weather';
+import loginRouter from './controllers/login';
 import catchAllRouter from './controllers/catchAll';
 
 const app: Express = express();
@@ -11,6 +12,7 @@ app.use(express.static('dist'));
 
 app.use('/api/todos', todosRouter);
 app.use('/api/weather', weatherRouter);
+app.use('/api/login', loginRouter);
 app.use('/*', catchAllRouter);
 
 export default app;

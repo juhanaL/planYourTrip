@@ -8,42 +8,73 @@ interface TodosType {
 
 const baseUrl = '/api/todos';
 
+let token: string = '';
+
+const setToken = (newToken: string) => {
+  token = `Bearer ${newToken}`;
+};
+
 const getAllTodos = () => {
-  const request = axios.get(baseUrl);
+  const config = {
+    headers: { Authorization: token },
+  };
+  const request = axios.get(baseUrl, config);
   return request.then((response) => response.data);
 };
 
 const createNewTodo = (newObject: TodosType) => {
-  const request = axios.post(baseUrl, newObject);
+  const config = {
+    headers: { Authorization: token },
+  };
+  const request = axios.post(baseUrl, newObject, config);
   return request.then((response) => response.data);
 };
 
 const updatePlaceNumber = (id: number, newPlaceNumber: number) => {
-  const request = axios.put(`${baseUrl}/${id}`, { placeNumber: newPlaceNumber });
+  const config = {
+    headers: { Authorization: token },
+  };
+  const request = axios.put(`${baseUrl}/${id}`, { placeNumber: newPlaceNumber }, config);
   return request.then((response) => response.data);
 };
 
 const updateText = (id: number, newText: string) => {
-  const request = axios.put(`${baseUrl}/${id}`, { text: newText });
+  const config = {
+    headers: { Authorization: token },
+  };
+  const request = axios.put(`${baseUrl}/${id}`, { text: newText }, config);
   return request.then((response) => response.data);
 };
 
 const updateDoneStatus = (id: number, newStatus: boolean) => {
-  const request = axios.put(`${baseUrl}/${id}`, { done: newStatus });
+  const config = {
+    headers: { Authorization: token },
+  };
+  const request = axios.put(`${baseUrl}/${id}`, { done: newStatus }, config);
   return request.then((response) => response.data);
 };
 
 const updateAll = (id: number, updatedObject: TodosType) => {
-  const request = axios.put(`${baseUrl}/${id}`, {
-    text: updatedObject.text,
-    placeNumber: updatedObject.placeNumber,
-    done: updatedObject.done,
-  });
+  const config = {
+    headers: { Authorization: token },
+  };
+  const request = axios.put(
+    `${baseUrl}/${id}`,
+    {
+      text: updatedObject.text,
+      placeNumber: updatedObject.placeNumber,
+      done: updatedObject.done,
+    },
+    config
+  );
   return request.then((response) => response.data);
 };
 
 const deleteTodo = (id: number) => {
-  const request = axios.delete(`${baseUrl}/${id}`);
+  const config = {
+    headers: { Authorization: token },
+  };
+  const request = axios.delete(`${baseUrl}/${id}`, config);
   return request.then((response) => response.data);
 };
 
@@ -55,4 +86,5 @@ export default {
   updateDoneStatus,
   updateAll,
   deleteTodo,
+  setToken,
 };

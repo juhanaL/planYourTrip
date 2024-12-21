@@ -1,5 +1,6 @@
-PUT http://localhost:3001/api/todos/8
+PUT http://localhost:3001/api/todos/1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiMTIzLTQ1Ni03ODktMTAxMTEyIiwiaWF0IjoxNzM0ODAwNTkyfQ.VSmSQVBiwd1d4l5AxzOFhzLDf9AMOrFF67HeUgeJaMU
 
 {
     "done": true

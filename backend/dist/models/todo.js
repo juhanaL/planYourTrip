@@ -25,6 +25,10 @@ Todo.init({
         type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
     },
+    user: {
+        type: sequelize_1.DataTypes.TEXT,
+        allowNull: false,
+    },
 }, {
     sequelize: db_1.sequelize,
     underscored: true,

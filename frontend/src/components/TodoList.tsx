@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useLayoutEffect, useRef } from 'react';
 import TodoButton from './TodoButton';
 import TodoItem from './TodoItem';
 import todoService from '../services/todos';
+import loginService from '../services/login';
 
 import '../styles/TodoList.css';
 
@@ -110,7 +111,20 @@ const TodoList = () => {
     avgYCoordsRef.current.set(id, avgYCoords);
   };
 
-  useEffect(() => {
+  const handleLogin = async () => {
+    const loggedInUser = await loginService.login(crypto.randomUUID());
+    window.localStorage.setItem('loggedTodoappUser', JSON.stringify(loggedInUser));
+    todoService.setToken(loggedInUser.token);
+  };
+
+  useLayoutEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedTodoappUser');
+    if (loggedUserJSON) {
+      const loggedUser = JSON.parse(loggedUserJSON);
+      todoService.setToken(loggedUser.token);
+    } else {
+      handleLogin();
+    }
     todoService.getAllTodos().then((allTodos) => {
       sortTodoItems(allTodos);
     });

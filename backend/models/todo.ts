@@ -15,6 +15,8 @@ class Todo extends Model<InferAttributes<Todo>, InferCreationAttributes<Todo>> {
   declare placeNumber: number;
 
   declare done: boolean;
+
+  declare user: string;
 }
 
 Todo.init(
@@ -37,6 +39,10 @@ Todo.init(
     },
     done: {
       type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    user: {
+      type: DataTypes.TEXT,
       allowNull: false,
     },
   },
