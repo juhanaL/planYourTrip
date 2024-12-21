@@ -7,7 +7,7 @@ describe('TodoItem', () => {
     render(
       <TodoItem
         todoText="Test1"
-        id="0"
+        id={0}
         done={false}
         removeTodoItem={() => {}}
         changeTodoText={() => {}}
@@ -37,7 +37,7 @@ describe('TodoItem', () => {
       >
         <TodoItem
           todoText="Test1"
-          id="0"
+          id={0}
           done={false}
           removeTodoItem={() => {}}
           changeTodoText={() => {}}

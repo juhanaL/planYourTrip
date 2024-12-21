@@ -12,14 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const app_1 = __importDefault(require("./app"));
-const db_1 = require("./utils/db");
-const config_1 = __importDefault(require("./utils/config"));
-const start = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, db_1.connectToDatabase)();
-    const port = config_1.default.PORT || 3001;
-    app_1.default.listen(port, () => {
-        console.log(`[server]: Server is running at http://localhost:${port}`);
-    });
+exports.connectToDatabase = exports.sequelize = void 0;
+const sequelize_1 = require("sequelize");
+const config_1 = __importDefault(require("./config"));
+exports.sequelize = new sequelize_1.Sequelize(`${config_1.default.DATABASE_URL}`);
+const connectToDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield exports.sequelize.authenticate();
+        console.log('database connected');
+    }
+    catch (err) {
+        console.log('connecting database failed');
+        return process.exit(1);
+    }
+    return null;
 });
-start();
+exports.connectToDatabase = connectToDatabase;
