@@ -5,7 +5,7 @@ type Coords = {
   lng: number;
 };
 
-const baseUrl = '/api';
+const baseUrl = '/api/weather';
 
 const getWeatherData = (newCoords: Coords) => {
   const request = axios.get(`${baseUrl}/weather`, {
@@ -15,8 +15,6 @@ const getWeatherData = (newCoords: Coords) => {
 };
 
 const getName = (newCoords: Coords) => {
-  //  const url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${newCoords.lat}&lon=${newCoords.lng}&limit=1&appid=${import.meta.env.VITE_WEATHER_API_KEY}`;
-
   const request = axios.get(`${baseUrl}/name`, {
     params: { lat: newCoords.lat, lng: newCoords.lng },
   });
@@ -24,8 +22,6 @@ const getName = (newCoords: Coords) => {
 };
 
 const getCamera = (newCoords: Coords) => {
-  // const url = `https://api.windy.com/webcams/api/v3/webcams?lang=en&limit=10&offset=0&nearby=${newCoords.lat}%2C${newCoords.lng}%2C250&categories=meteo&include=images`;
-
   const request = axios.get(`${baseUrl}/webcam`, {
     params: { lat: newCoords.lat, lng: newCoords.lng },
   });
@@ -33,8 +29,6 @@ const getCamera = (newCoords: Coords) => {
 };
 
 const getTime = (newCoords: Coords) => {
-  // const url = `https://timeapi.io/api/time/current/coordinate?latitude=${newCoords.lat}&longitude=${newCoords.lng}`;
-
   const request = axios.get(`${baseUrl}/time`, {
     params: { lat: newCoords.lat, lng: newCoords.lng },
   });

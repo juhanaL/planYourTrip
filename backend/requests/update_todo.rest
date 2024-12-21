@@ -1,7 +1,6 @@
-PUT http://localhost:3001/api/todos/0
+PUT http://localhost:3001/api/todos/8
 Content-Type: application/json
 
 {
-    "text": "600",  
-    "placeNumber": 5
+    "done": true
 }

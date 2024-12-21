@@ -6,13 +6,13 @@ import '../styles/TodoItem.css';
 
 interface Props {
   todoText: string;
-  id: string;
+  id: number;
   done: boolean;
-  removeTodoItem: (arg0: string) => void;
-  changeTodoText: (arf0: string, arg1: string) => void;
-  toggleDone: (arf0: string, arg1: boolean) => void;
-  setCoordinates: (arf0: string, arg1: number) => void;
-  reallocatePlaceNumbers: (arg0: string) => void;
+  removeTodoItem: (arg0: number) => void;
+  changeTodoText: (arf0: number, arg1: string) => void;
+  toggleDone: (arf0: number, arg1: boolean) => void;
+  setCoordinates: (arf0: number, arg1: number) => void;
+  reallocatePlaceNumbers: (arg0: number) => void;
   placeNumber: number;
 }
 

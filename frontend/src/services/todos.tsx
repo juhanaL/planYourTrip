@@ -18,22 +18,22 @@ const createNewTodo = (newObject: TodosType) => {
   return request.then((response) => response.data);
 };
 
-const updatePlaceNumber = (id: string, newPlaceNumber: number) => {
+const updatePlaceNumber = (id: number, newPlaceNumber: number) => {
   const request = axios.put(`${baseUrl}/${id}`, { placeNumber: newPlaceNumber });
   return request.then((response) => response.data);
 };
 
-const updateText = (id: string, newText: string) => {
+const updateText = (id: number, newText: string) => {
   const request = axios.put(`${baseUrl}/${id}`, { text: newText });
   return request.then((response) => response.data);
 };
 
-const updateDoneStatus = (id: string, newStatus: boolean) => {
+const updateDoneStatus = (id: number, newStatus: boolean) => {
   const request = axios.put(`${baseUrl}/${id}`, { done: newStatus });
   return request.then((response) => response.data);
 };
 
-const updateAll = (id: string, updatedObject: TodosType) => {
+const updateAll = (id: number, updatedObject: TodosType) => {
   const request = axios.put(`${baseUrl}/${id}`, {
     text: updatedObject.text,
     placeNumber: updatedObject.placeNumber,
@@ -42,7 +42,7 @@ const updateAll = (id: string, updatedObject: TodosType) => {
   return request.then((response) => response.data);
 };
 
-const deleteTodo = (id: string) => {
+const deleteTodo = (id: number) => {
   const request = axios.delete(`${baseUrl}/${id}`);
   return request.then((response) => response.data);
 };

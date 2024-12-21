@@ -7,7 +7,7 @@ import '../styles/TodoList.css';
 
 interface TodosType {
   text: string;
-  id: string;
+  id: number;
   placeNumber: number;
   done: boolean;
 }
@@ -15,7 +15,7 @@ interface TodosType {
 const TodoList = () => {
   const [todos, setTodos] = useState<TodosType[]>([]);
 
-  const avgYCoordsRef = useRef(new Map<string, number>());
+  const avgYCoordsRef = useRef(new Map<number, number>());
 
   const recalculatePlaceNumber = (todoList: TodosType[]) => {
     const todosWithNewPlaceNumbers = todoList.map((todo, index) => {
@@ -42,7 +42,7 @@ const TodoList = () => {
     });
   };
 
-  const removeTodoItem = (id: string) => {
+  const removeTodoItem = (id: number) => {
     todoService.deleteTodo(id);
     avgYCoordsRef.current.delete(id);
     const newTodos = todos.filter((todo) => todo.id !== id);
@@ -50,7 +50,7 @@ const TodoList = () => {
     setTodos(newTodosWithPlaceNumbers);
   };
 
-  const changeTodoText = (id: string, newTodoText: string) => {
+  const changeTodoText = (id: number, newTodoText: string) => {
     todoService.updateText(id, newTodoText);
     const newTodos = todos.map((todo) => {
       if (todo.id === id) {
@@ -61,7 +61,7 @@ const TodoList = () => {
     setTodos(newTodos);
   };
 
-  const toggleDone = (id: string, checked: boolean) => {
+  const toggleDone = (id: number, checked: boolean) => {
     todoService.updateDoneStatus(id, checked);
     const newTodos = todos.map((todo) => {
       if (todo.id === id) {
@@ -73,7 +73,7 @@ const TodoList = () => {
     setTodos(newTodos);
   };
 
-  const reallocatePlaceNumbers = (id: string) => {
+  const reallocatePlaceNumbers = (id: number) => {
     const oldTodos = todos;
     const todoType = oldTodos.find((todo) => todo.id === id)?.done;
     const todosOfDoneType = oldTodos.filter((todo) => todo.done === todoType);
@@ -106,7 +106,7 @@ const TodoList = () => {
     sortTodoItems(newTodos);
   };
 
-  const setTodoItemCoordinates = (id: string, avgYCoords: number) => {
+  const setTodoItemCoordinates = (id: number, avgYCoords: number) => {
     avgYCoordsRef.current.set(id, avgYCoords);
   };
 

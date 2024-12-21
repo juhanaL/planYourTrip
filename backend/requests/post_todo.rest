@@ -2,7 +2,7 @@ POST http://localhost:3001/api/todos
 Content-Type: application/json
 
 {
-    "text": "600",  
-    "placeNumber": 5, 
-    "done": true
+    "text": "test1",  
+    "placeNumber": 2, 
+    "done": false
 }

@@ -2,19 +2,22 @@ import express, { Express, Request, Response } from 'express';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
+import {
+  Sequelize,
+  Model,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+} from 'sequelize';
 
 interface TodosType {
   text: string;
-  id: string;
+  id: number;
   placeNumber: number;
   done: boolean;
 }
-
-let todos: TodosType[] = [
-  { text: 'test1', id: '0', placeNumber: 2, done: false },
-  { text: 'test2', id: '1', placeNumber: 3, done: true },
-  { text: 'test3', id: '2', placeNumber: 1, done: false },
-];
 
 dotenv.config();
 
@@ -23,13 +26,59 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('dist'));
 
-app.get('/api/todos', (request: Request, response: Response) => {
+const sequelize = new Sequelize(`${process.env.DATABASE_URL}`);
+
+class Todo extends Model<InferAttributes<Todo>, InferCreationAttributes<Todo>> {
+  declare id: CreationOptional<number>;
+
+  declare text: string;
+
+  declare placeNumber: number;
+
+  declare done: boolean;
+}
+
+Todo.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    text: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    placeNumber: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 0,
+      },
+    },
+    done: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize,
+    underscored: true,
+    timestamps: false,
+    modelName: 'todo',
+  }
+);
+
+Todo.sync();
+
+app.get('/api/todos', async (request: Request, response: Response) => {
+  const todos = await Todo.findAll();
   response.json(todos);
 });
 
-app.get('/api/todos/:id', (request: Request, response: Response) => {
+app.get('/api/todos/:id', async (request: Request, response: Response) => {
   const { id } = request.params;
-  const responseTodo = todos.find((todo) => todo.id === id);
+  const responseTodo = await Todo.findByPk(id);
   if (responseTodo) {
     response.json(responseTodo);
   } else {
@@ -37,16 +86,14 @@ app.get('/api/todos/:id', (request: Request, response: Response) => {
   }
 });
 
-app.delete('/api/todos/:id', (request: Request, response: Response) => {
+app.delete('/api/todos/:id', async (request: Request, response: Response) => {
   const { id } = request.params;
-  todos = todos.filter((todo) => todo.id !== id);
+  await Todo.destroy({ where: { id } });
 
   response.status(204).end();
 });
 
-app.post('/api/todos', (request: Request, response: Response) => {
-  const maxId = todos.length > 0 ? Math.max(...todos.map((n) => Number(n.id))) : 0;
-
+app.post('/api/todos', async (request: Request, response: Response) => {
   const { body } = request;
 
   if (typeof body.text !== 'string') {
@@ -71,21 +118,23 @@ app.post('/api/todos', (request: Request, response: Response) => {
   }
 
   const todo = {
-    id: String(maxId + 1),
     text: body.text,
     placeNumber: body.placeNumber,
     done: body.done,
   };
 
-  todos = todos.concat(todo);
-
-  response.json(todo);
+  try {
+    const dBtodo = await Todo.create(todo);
+    response.json(dBtodo);
+  } catch (error) {
+    response.status(400).json({ error });
+  }
 });
 
-app.put('/api/todos/:id', (request: Request, response: Response) => {
+app.put('/api/todos/:id', async (request: Request, response: Response) => {
   const { id } = request.params;
 
-  const todoToUpdate = todos.find((todo) => todo.id === id);
+  const todoToUpdate = await Todo.findByPk(id);
 
   if (!todoToUpdate) {
     response.status(404).end();
@@ -122,17 +171,11 @@ app.put('/api/todos/:id', (request: Request, response: Response) => {
   todoToUpdate.text = updatedTodo.text || todoToUpdate.text;
   todoToUpdate.done = updatedTodo.done != null ? updatedTodo.done : todoToUpdate.done;
 
-  todos = todos.map((todo) => {
-    if (todo.id !== id) {
-      return todo;
-    }
-    return todoToUpdate;
-  });
-
+  await todoToUpdate.save();
   response.json(todoToUpdate);
 });
 
-app.get('/api/weather', (request: Request, response: Response) => {
+app.get('/api/weather/weather', (request: Request, response: Response) => {
   const { lat } = request.query;
   const { lng } = request.query;
 
@@ -153,7 +196,7 @@ app.get('/api/weather', (request: Request, response: Response) => {
     );
 });
 
-app.get('/api/name', (request: Request, response: Response) => {
+app.get('/api/weather/name', (request: Request, response: Response) => {
   const { lat } = request.query;
   const { lng } = request.query;
 
@@ -174,7 +217,7 @@ app.get('/api/name', (request: Request, response: Response) => {
     );
 });
 
-app.get('/api/time', (request: Request, response: Response) => {
+app.get('/api/weather/time', (request: Request, response: Response) => {
   const { lat } = request.query;
   const { lng } = request.query;
 
@@ -195,7 +238,7 @@ app.get('/api/time', (request: Request, response: Response) => {
     );
 });
 
-app.get('/api/webcam', (request: Request, response: Response) => {
+app.get('/api/weather/webcam', (request: Request, response: Response) => {
   const { lat } = request.query;
   const { lng } = request.query;
 
@@ -216,6 +259,14 @@ app.get('/api/webcam', (request: Request, response: Response) => {
     .catch((axiosError) =>
       response.status(axiosError.response.status).json({ error: `Fetching webcam picture failed.` })
     );
+});
+
+app.get('/*', (request: Request, response: Response) => {
+  response.sendFile(path.join(__dirname, 'dist/index.html'), (error) => {
+    if (error) {
+      response.status(500).send(error);
+    }
+  });
 });
 
 const port = process.env.PORT || 3001;

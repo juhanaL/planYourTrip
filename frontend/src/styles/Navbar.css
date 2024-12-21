@@ -24,11 +24,6 @@
   padding-bottom: 20px;
 }
 
-.navbar-element:hover {
-  background-color: #1873d3;
-  cursor: pointer;
-}
-
 .navbar-text {
   margin-left: 20px;
   font-weight: 700;
@@ -90,5 +85,12 @@
 
   .fa-navbar-toggle-icon {
     transform: rotate(90deg);
+  }
+}
+
+@media (hover: hover) {
+  .navbar-element:hover {
+    background-color: #1873d3;
+    cursor: pointer;
   }
 }
