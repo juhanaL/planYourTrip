@@ -22,6 +22,8 @@ const connectToDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log('database connected');
     }
     catch (err) {
+        console.log(`Here it comes: ${config_1.default.DATABASE_URL}`);
+        console.log(`And here: ${config_1.default.WEATHER_API_KEY}`);
         console.log('connecting database failed');
         return process.exit(1);
     }
