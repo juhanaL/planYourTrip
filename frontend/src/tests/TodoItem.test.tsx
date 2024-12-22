@@ -1,8 +1,11 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import TodoItem from '../components/TodoItem';
+import todoService from '../services/todos';
 
 describe('TodoItem', () => {
+  vi.spyOn(todoService, 'updatePlaceNumber').mockResolvedValue(null);
+
   test('Renders correct text and elements', () => {
     render(
       <TodoItem

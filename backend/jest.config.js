@@ -5,4 +5,5 @@ module.exports = {
     '^.+.tsx?$': ['ts-jest', {}],
   },
   collectCoverageFrom: ['./controllers/**'],
+  testPathIgnorePatterns: ['dist/'],
 };
