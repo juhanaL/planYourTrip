@@ -8,9 +8,8 @@ export const connectToDatabase = async () => {
     await sequelize.authenticate();
     console.log('database connected');
   } catch (err) {
-    console.log(`Here it comes: ${config.DATABASE_URL}`);
-    console.log(`And here: ${config.WEATHER_API_KEY}`);
     console.log('connecting database failed');
+    console.log(err);
     return process.exit(1);
   }
 
