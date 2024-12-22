@@ -17,7 +17,7 @@ export default defineConfig({
     globals: true,
     setupFiles: './testSetup.ts',
     coverage: {
-      exclude: [...coverageConfigDefaults.exclude, './src/main.tsx'],
+      exclude: [...coverageConfigDefaults.exclude, './src/main.tsx', 'src/services/**'],
     },
   },
 });
