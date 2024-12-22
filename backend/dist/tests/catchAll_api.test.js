@@ -12,22 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const express_1 = require("express");
-const config_1 = __importDefault(require("../utils/config"));
-const router = (0, express_1.Router)();
-router.post('/', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    const { uuid } = request.body;
-    if (!uuid || typeof uuid !== 'string') {
-        response.status(401).json({
-            error: 'invalid uuid',
-        });
-        return;
-    }
-    const userForToken = {
-        uuid,
-    };
-    const token = jsonwebtoken_1.default.sign(userForToken, `${config_1.default.SECRET}`);
-    response.status(200).send({ token, uuid });
-}));
-exports.default = router;
+const supertest_1 = __importDefault(require("supertest"));
+const app_1 = __importDefault(require("../app"));
+const api = (0, supertest_1.default)(app_1.default);
+describe('catchAll API get', () => {
+    test('requests to "/" get status code 200', () => __awaiter(void 0, void 0, void 0, function* () {
+        yield api.get('/').expect(200);
+    }));
+    test('requests to "/todo" get status code 200', () => __awaiter(void 0, void 0, void 0, function* () {
+        yield api.get('/todo').expect(200);
+    }));
+    test('requests to "/todo" get status code 200', () => __awaiter(void 0, void 0, void 0, function* () {
+        yield api.get('/weathermap').expect(200);
+    }));
+});

@@ -11,7 +11,7 @@ interface Props {
 
 const HomePageInfoBox = ({ heading, image, infotext, link }: Props) => {
   return (
-    <div className="home-page-info-container">
+    <div className="home-page-info-container" data-testid="home-page-info-container">
       <Link to={link} className="nav-link">
         <h2 className="home-page-info-heading">{heading}</h2>
         <p className="home-page-info-text">{infotext}</p>

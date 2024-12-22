@@ -12,22 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const express_1 = require("express");
-const config_1 = __importDefault(require("../utils/config"));
-const router = (0, express_1.Router)();
-router.post('/', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    const { uuid } = request.body;
-    if (!uuid || typeof uuid !== 'string') {
-        response.status(401).json({
-            error: 'invalid uuid',
-        });
-        return;
-    }
-    const userForToken = {
-        uuid,
-    };
-    const token = jsonwebtoken_1.default.sign(userForToken, `${config_1.default.SECRET}`);
-    response.status(200).send({ token, uuid });
-}));
-exports.default = router;
+const supertest_1 = __importDefault(require("supertest"));
+const app_1 = __importDefault(require("../app"));
+const api = (0, supertest_1.default)(app_1.default);
+describe('login API post', () => {
+    test('fails with statuscode 401 if no uuid is sent', () => __awaiter(void 0, void 0, void 0, function* () {
+        yield api.post('/api/login').expect(401);
+    }));
+    test('fails with statuscode 401 if non-string uuid is sent', () => __awaiter(void 0, void 0, void 0, function* () {
+        yield api.post('/api/login').send({ uuid: 123 }).expect(401);
+    }));
+    test('succeeds when string format uuid is sent', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield api.post('/api/login').send({ uuid: '123' });
+        expect(response.body.uuid).toBe('123');
+    }));
+});
