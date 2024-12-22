@@ -15,9 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectToDatabase = exports.sequelize = void 0;
 const sequelize_1 = require("sequelize");
 const config_1 = __importDefault(require("./config"));
-exports.sequelize = new sequelize_1.Sequelize(`${config_1.default.DATABASE_URL}`, {
-    logging: config_1.default.NODE_ENV === 'test' ? false : console.log,
-});
+exports.sequelize = new sequelize_1.Sequelize(`${config_1.default.DATABASE_URL}`);
 const connectToDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield exports.sequelize.authenticate();
