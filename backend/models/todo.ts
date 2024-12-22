@@ -5,6 +5,7 @@ import {
   InferCreationAttributes,
   CreationOptional,
 } from 'sequelize';
+import config from '../utils/config';
 import { sequelize } from '../utils/db';
 
 class Todo extends Model<InferAttributes<Todo>, InferCreationAttributes<Todo>> {
@@ -50,7 +51,7 @@ Todo.init(
     sequelize,
     underscored: true,
     timestamps: false,
-    modelName: 'todo',
+    modelName: config.NODE_ENV === 'test' ? 'testtodo' : 'todo',
   }
 );
 

@@ -7,7 +7,7 @@ const router = Router();
 router.post('/', async (request: Request, response: Response) => {
   const { uuid } = request.body;
 
-  if (!uuid) {
+  if (!uuid || typeof uuid !== 'string') {
     response.status(401).json({
       error: 'invalid uuid',
     });

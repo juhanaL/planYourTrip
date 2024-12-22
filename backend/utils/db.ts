@@ -1,7 +1,9 @@
 import { Sequelize } from 'sequelize';
 import config from './config';
 
-export const sequelize = new Sequelize(`${config.DATABASE_URL}`);
+export const sequelize = new Sequelize(`${config.DATABASE_URL}`, {
+  logging: config.NODE_ENV === 'test' ? false : console.log,
+});
 
 export const connectToDatabase = async () => {
   try {
